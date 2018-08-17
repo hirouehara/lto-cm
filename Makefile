@@ -3,6 +3,8 @@ ARCH = $(shell arch)
 DESTDIR ?= $RPM_BUILD_ROOT
 CC = gcc
 EXECS = install
+MKDIR = mkdir
+INSTALL = install
 LARGE_FILE_FLAGS = -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64
 LDLIBS = -lsgutils2
 
@@ -10,35 +12,15 @@ lto-cm: lto-cm.o
 lto-cm.o: lto-cm.h
 
 install: lto-cm $(LIBFILES)
-	@mkdir -p $(DESTDIR)/usr/bin
-	@cp lto-cm $(DESTDIR)/usr/bin
-	@mkdir -p $(DESTDIR)/usr/lib64
-	@mkdir -p $(DESTDIR)/usr/lib
-	@mkdir -p $(DESTDIR)/usr/include
-	@mkdir -p $(DESTDIR)/usr/share/man/
-	@mkdir -p $(DESTDIR)/usr/share/man/en
-	@mkdir -p $(DESTDIR)/usr/share/man/en/man1
-	@cp ./lto-cm.1.gz $(DESTDIR)/usr/share/man/en/man1
-	@cp ./include/sg_cmds.h $(DESTDIR)/usr/include
-	@cp ./include/sg_cmds_basic.h $(DESTDIR)/usr/include
-	@cp ./include/sg_cmds_extra.h $(DESTDIR)/usr/include
-	@cp ./include/sg_cmds_mmc.h $(DESTDIR)/usr/include
-	@cp ./include/sg_io_linux.h $(DESTDIR)/usr/include
-	@cp ./include/sg_lib.h $(DESTDIR)/usr/include
-	@cp ./include/sg_lib_data.h $(DESTDIR)/usr/include
-	@cp ./include/sg_linux_inc.h $(DESTDIR)/usr/include
-	@cp ./include/sg_pt.h $(DESTDIR)/usr/include
-	@cp ./include/sg_pt_win32.h $(DESTDIR)/usr/include
-	@cp ./lib32/sg_lib.o $(DESTDIR)/usr/lib
-	@cp ./lib32/sg_io_linux.o $(DESTDIR)/usr/lib
-	@cp ./lib32/sg_lib_data.o $(DESTDIR)/usr/lib
-	@cp ./lib64/sg_lib.o $(DESTDIR)/usr/lib64
-	@cp ./lib64/sg_io_linux.o $(DESTDIR)/usr/lib64
-	@cp ./lib64/sg_lib_data.o $(DESTDIR)/usr/lib64
-	
+	$(MKDIR) -p $(DESTDIR)/usr/bin
+	$(INSTALL) -m 644 ./lto-cm $(DESTDIR)/usr/bin
+	$(MKDIR) -p $(DESTDIR)/usr/share/man/en/man1
+	$(INSTALL) -m 644 ./lto-cm.1.gz $(DESTDIR)/usr/share/man/en/man1
+
 uninstall:
-	@rm -rf $(DESTDIR)/usr/bin/lto-cm
-	
+	$(RM) $(DESTDIR)/usr/bin/lto-cm
+	$(RM) $(DESTDIR)/usr/share/man/en/man1/lto-cm.1.gz
+
 reinstall: uninstall install
 
 clean:
