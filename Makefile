@@ -4,9 +4,12 @@ DESTDIR ?= $RPM_BUILD_ROOT
 CC = gcc
 EXECS = install
 LARGE_FILE_FLAGS = -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64
+LDLIBS = -lsgutils2
 
-install: lto-cm.o $(LIBFILES)
-	$(CC) -o lto-cm $(LDFLAGS) $^
+lto-cm: lto-cm.o
+lto-cm.o: lto-cm.h
+
+install: lto-cm $(LIBFILES)
 	@mkdir -p $(DESTDIR)/usr/bin
 	@cp lto-cm $(DESTDIR)/usr/bin
 	@mkdir -p $(DESTDIR)/usr/lib64

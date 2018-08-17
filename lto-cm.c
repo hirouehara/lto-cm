@@ -7,8 +7,8 @@
 #include <sys/ioctl.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include "sg_lib.h"
-#include "sg_io_linux.h"
+#include <scsi/sg_lib.h>
+#include <scsi/sg_io_linux.h>
 #include "lto-cm.h"
 
 struct globalArgs_t {
