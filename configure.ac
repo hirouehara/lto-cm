@@ -1,5 +1,6 @@
 AC_INIT([lto-cm], [0.1.0])
 AM_INIT_AUTOMAKE([foreign])
+AM_MAINTAINER_MODE
 AC_CANONICAL_HOST
 AC_PROG_CC
 AS_CASE(["$host"],
